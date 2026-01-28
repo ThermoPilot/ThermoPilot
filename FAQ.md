@@ -142,3 +142,34 @@ ThermoPilot stops immediately.
 No background processes remain.
 
 ---
+❗ EPP Not Changing
+Possible causes:
+- OEM tool constantly rewriting EPP
+- Running multiple tuning tools
+- Power plan locked by corporate policy
+Fix:
+- Close OEM performance tools
+- Use ThermoPilot exclusively
+- Ensure ThermoPilot plan is active
+
+❗ Power Plan Not Switching
+Cause:
+Windows may be stuck on a custom OEM plan.
+Fix:
+- Delete unused OEM plans
+- Recreate the ThermoPilot plan
+- Run PowerShell as Administrator
+
+❗ GUI Looks Cut Off or Misaligned
+Cause:
+WinForms scaling on high‑DPI displays.
+Fix:
+- Ensure Windows scaling is 100–125%
+- Resize the window
+- Use the latest version of ThermoPilot
+
+❗ CPU Override Never Activates
+Cause:
+CPU temperature is not available (Acer firmware lock).
+Fix:
+Use the Acer Edition.
