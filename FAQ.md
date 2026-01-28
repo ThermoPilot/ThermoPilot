@@ -1,5 +1,35 @@
 # ThermoPilot – Frequently Asked Questions
 
+
+## ❓ Why do I get a .NET Framework “Unhandled Exception” when stopping ThermoPilot?
+
+This happens only when running ThermoPilot inside **PowerShell ISE** and clicking the red ■ Stop button.
+
+PowerShell ISE does not gracefully stop WinForms applications. When you click Stop:
+
+- ISE immediately kills the PowerShell script engine  
+- The ThermoPilot window is still running  
+- The timer is still running  
+- The WinForms message loop is still running  
+- The form tries to update itself  
+- But the PowerShell host is gone  
+- .NET throws an “Unhandled Exception” dialog  
+
+This is normal behavior for any WinForms script in ISE.
+
+### ✔ How to avoid this error
+Use one of these safe shutdown methods:
+
+- Click the **Close** button inside the ThermoPilot window  
+- Press **Ctrl + C** in the ISE console pane  
+- Run ThermoPilot from Windows Terminal or PowerShell.exe  
+
+### ✔ Is this a ThermoPilot bug?
+No.  
+It is a PowerShell ISE limitation and affects all WinForms scripts.
+
+ThermoPilot shuts down cleanly when closed from its own window.
+
 ---
 
 ## ❓ Why does my CPU temperature show 0°C, N/A, or stay blank?
