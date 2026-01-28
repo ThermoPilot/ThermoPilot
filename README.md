@@ -237,6 +237,16 @@ If CPU temp is hidden (Acer), this feature is automatically disabled.
 
 ---
 
+# 🖼️ ThermoPilot GUI Preview
+
+![ThermoPilot GUI](assets/ThermoPilot_GUI.png)
+
+The ThermoPilot GUI provides real‑time visibility into GPU and CPU temperatures,
+current EPP value, active thermal stage, and CPU override status — all presented
+in a clean, lightweight interface designed for clarity and ease of use.
+
+---
+
 # 🧩 Interaction with OEM Tools
 
 ThermoPilot does **not** conflict with OEM tools in any harmful way.
