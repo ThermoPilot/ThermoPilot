@@ -308,8 +308,11 @@ ThermoPilot shuts down cleanly when closed from its own window.
 
 # 📚 Documentation
 
-- [FAQ](FAQ.md)  
-- [Troubleshooting](TROUBLESHOOTING.md)  
+- [FAQ](FAQ.md)
+- [Troubleshooting](TROUBLESHOOTING.md)
+- [Roadmap](ROADMAP.md)
+- [Contributing](CONTRIBUTING.md)
+- [License](LICENSE)
 
 ---
 
