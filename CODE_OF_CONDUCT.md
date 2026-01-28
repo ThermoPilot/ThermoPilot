@@ -1,128 +1,94 @@
-# Contributor Covenant Code of Conduct
+# ThermoPilot Code of Conduct
 
-## Our Pledge
+ThermoPilot is an open‑source project built with care, curiosity, and a genuine desire to help people get more stability, performance, and insight from their Windows systems. This project welcomes users, contributors, and learners of all backgrounds and experience levels.
 
-We as members, contributors, and leaders pledge to make participation in our
-community a harassment-free experience for everyone, regardless of age, body
-size, visible or invisible disability, ethnicity, sex characteristics, gender
-identity and expression, level of experience, education, socio-economic status,
-nationality, personal appearance, race, religion, or sexual identity
-and orientation.
+To keep this community healthy, respectful, and productive, the following expectations apply to everyone who interacts with the project.
 
-We pledge to act and interact in ways that contribute to an open, welcoming,
-diverse, inclusive, and healthy community.
+---
 
-## Our Standards
+## 🌟 Our Values
 
-Examples of behavior that contributes to a positive environment for our
-community include:
+- **Respect** – Treat others with courtesy, patience, and professionalism.  
+- **Collaboration** – Work together constructively, even when opinions differ.  
+- **Curiosity** – Ask questions, explore ideas, and share knowledge openly.  
+- **Inclusivity** – Everyone is welcome, regardless of background or skill level.  
+- **Integrity** – Be honest about your experience, your intentions, and your contributions.  
 
-* Demonstrating empathy and kindness toward other people
-* Being respectful of differing opinions, viewpoints, and experiences
-* Giving and gracefully accepting constructive feedback
-* Accepting responsibility and apologizing to those affected by our mistakes,
-  and learning from the experience
-* Focusing on what is best not just for us as individuals, but for the
-  overall community
+ThermoPilot was built by someone who came from HVAC‑R, transitioned into cybersecurity, and learned system‑level engineering through passion and persistence. This project embraces people who are learning, growing, and improving — no matter where they started.
 
-Examples of unacceptable behavior include:
+---
 
-* The use of sexualized language or imagery, and sexual attention or
-  advances of any kind
-* Trolling, insulting or derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or email
-  address, without their explicit permission
-* Other conduct which could reasonably be considered inappropriate in a
-  professional setting
+## ✔ Expected Behavior
 
-## Enforcement Responsibilities
+- Use welcoming and inclusive language.  
+- Offer constructive feedback, not personal criticism.  
+- Help others learn when possible.  
+- Respect differing viewpoints and experiences.  
+- Focus on what’s best for the project and its users.  
+- Acknowledge mistakes and grow from them.  
+- Keep discussions technical, respectful, and on‑topic.  
 
-Community leaders are responsible for clarifying and enforcing our standards of
-acceptable behavior and will take appropriate and fair corrective action in
-response to any behavior that they deem inappropriate, threatening, offensive,
-or harmful.
+---
 
-Community leaders have the right and responsibility to remove, edit, or reject
-comments, commits, code, wiki edits, issues, and other contributions that are
-not aligned to this Code of Conduct, and will communicate reasons for moderation
-decisions when appropriate.
+## ❌ Unacceptable Behavior
 
-## Scope
+- Harassment, insults, or personal attacks.  
+- Dismissing or belittling someone’s experience level.  
+- Aggressive or hostile communication.  
+- Sharing misleading or harmful information.  
+- Spamming, trolling, or derailing conversations.  
+- Any behavior that makes others feel unwelcome or unsafe.  
 
-This Code of Conduct applies within all community spaces, and also applies when
-an individual is officially representing the community in public spaces.
-Examples of representing our community include using an official e-mail address,
-posting via an official social media account, or acting as an appointed
-representative at an online or offline event.
+---
 
-## Enforcement
+## 🛠 Reporting Issues
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement at
-TBD.
-All complaints will be reviewed and investigated promptly and fairly.
+If you encounter behavior that violates this Code of Conduct, please open an issue on GitHub or contact the project maintainer directly. Reports will be handled respectfully and privately.
 
-All community leaders are obligated to respect the privacy and security of the
-reporter of any incident.
+---
 
-## Enforcement Guidelines
+## 🤝 Commitment to Growth
 
-Community leaders will follow these Community Impact Guidelines in determining
-the consequences for any action they deem in violation of this Code of Conduct:
+ThermoPilot is maintained by a developer who is actively expanding skills in:
 
-### 1. Correction
+- Windows internals  
+- performance engineering  
+- cybersecurity (Blue Team / SOC analysis)  
+- troubleshooting and system behavior  
+- software development and open‑source collaboration  
 
-**Community Impact**: Use of inappropriate language or other behavior deemed
-unprofessional or unwelcome in the community.
+This project is a space for learning, improvement, and community — not perfection.  
+Contributors of all experience levels are welcome, especially those who are learning fast and eager to grow.
 
-**Consequence**: A private, written warning from community leaders, providing
-clarity around the nature of the violation and an explanation of why the
-behavior was inappropriate. A public apology may be requested.
+---
 
-### 2. Warning
+## 💼 Professional Conduct
 
-**Community Impact**: A violation through a single incident or series
-of actions.
+While ThermoPilot is a passion project, it is also part of a broader professional journey. The maintainer is open to collaboration, mentorship, and opportunities in:
 
-**Consequence**: A warning with consequences for continued behavior. No
-interaction with the people involved, including unsolicited interaction with
-those enforcing the Code of Conduct, for a specified period of time. This
-includes avoiding interactions in community spaces as well as external channels
-like social media. Violating these terms may lead to a temporary or
-permanent ban.
+- Windows performance engineering  
+- gaming hardware optimization  
+- system‑level software development  
+- cybersecurity / SOC analysis  
+- hybrid roles that blend these disciplines  
 
-### 3. Temporary Ban
+This Code of Conduct reflects the professionalism and respect expected in those environments.
 
-**Community Impact**: A serious violation of community standards, including
-sustained inappropriate behavior.
+---
 
-**Consequence**: A temporary ban from any sort of interaction or public
-communication with the community for a specified period of time. No public or
-private interaction with the people involved, including unsolicited interaction
-with those enforcing the Code of Conduct, is allowed during this period.
-Violating these terms may lead to a permanent ban.
+## 📜 Enforcement
 
-### 4. Permanent Ban
+Violations of this Code of Conduct may result in:
 
-**Community Impact**: Demonstrating a pattern of violation of community
-standards, including sustained inappropriate behavior,  harassment of an
-individual, or aggression toward or disparagement of classes of individuals.
+- a warning  
+- temporary or permanent removal from discussions  
+- blocking from the repository  
 
-**Consequence**: A permanent ban from any sort of public interaction within
-the community.
+Enforcement decisions are made to protect the health of the community and the integrity of the project.
 
-## Attribution
+---
 
-This Code of Conduct is adapted from the [Contributor Covenant][homepage],
-version 2.0, available at
-https://www.contributor-covenant.org/version/2/0/code_of_conduct.html.
+## ❤️ Thank You
 
-Community Impact Guidelines were inspired by [Mozilla's code of conduct
-enforcement ladder](https://github.com/mozilla/diversity).
-
-[homepage]: https://www.contributor-covenant.org
-
-For answers to common questions about this code of conduct, see the FAQ at
-https://www.contributor-covenant.org/faq. Translations are available at
-https://www.contributor-covenant.org/translations.
+Thank you for being part of ThermoPilot.  
+Your respect, curiosity, and collaboration help make this project — and the community around it — something worth building.
