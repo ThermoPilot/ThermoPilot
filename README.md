@@ -28,7 +28,6 @@ ThermoPilot rewrites the CPU’s Energy Performance Preference (EPP) in real tim
 At 75°C, ThermoPilot automatically hands control back to Acer’s embedded firmware to avoid conflicts and ensure stability.
 ✔ Clean, modern GUI
 - Windows 11‑style layout
-- Centered ThermoPilot logo
 - Clear status panel
 - No clutter, no unnecessary controls
 ✔ Lightweight and efficient
