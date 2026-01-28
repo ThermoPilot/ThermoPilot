@@ -111,7 +111,7 @@ Acer’s software doesn’t expose EPP at all — ThermoPilot gives you control 
 - ThermoPilot.ps1
 - LibreHardwareMonitorLib.dll
 - thermopilot_logo.png
-- Run the script using PowerShell (Run as Administrator recommended).
+- Run the script using PowerShell ISE (Run as Administrator recommended). (Shortcut can be created to run as a Desktop Icon as well)
 
 🧭 Usage
 - Launch ThermoPilot
