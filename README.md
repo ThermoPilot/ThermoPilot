@@ -306,6 +306,71 @@ ThermoPilot shuts down cleanly when closed from its own window.
 
 ---
 
+<details>
+<summary><strong>How to Verify ThermoPilot Is Working</strong></summary>
+
+ThermoPilot actively adjusts the system’s Energy Performance Preference (EPP) based on real CPU/GPU temperatures.  
+If you want to confirm that it’s functioning as described, the commands below let you verify everything in real time.
+
+---
+
+## 1. Check Live EPP Values:
+ThermoPilot‑Universal adjusts EPP directly inside the user’s active Windows power plan. It does not create, modify, or switch power plans. You can verify this by opening a seperate PowerShell window and running: powercfg /query SCHEME_CURRENT SUB_PROCESSOR PERFENERGYPREFERENCE and watching the Power Setting Index (EPP) change under different loads. This value is reported directly by Windows and confirms that EPP is being updated in real time.
+
+
+- Let the system idle → EPP should rise  
+- Start a light load → EPP should lower  
+- Run a heavy GPU/CPU load → EPP should drop to its minimum  
+
+You will see the value change as ThermoPilot adjusts it.
+
+---
+
+
+## 2. Confirm Temperature Readings Match
+
+ThermoPilot reads telemetry from LibreHardwareMonitor.  
+You can verify the same sensor values using:
+
+- LibreHardwareMonitor  
+- HWiNFO  
+- OpenHardwareMonitor  
+
+The temperatures shown in these tools will match what ThermoPilot uses internally.
+
+---
+
+## 3. Trigger State Changes Manually
+
+You can force ThermoPilot to react by applying different loads:
+
+- **Idle:** close all apps → EPP rises  
+- **Moderate load:** browser benchmark → EPP adjusts  
+- **Heavy load:** GPU stress test → EPP drops  
+
+Run the EPP query command above while doing this to watch changes live.
+
+---
+
+## 4. Optional: Check Event Log Entries
+
+If logging is enabled, ThermoPilot writes entries for:
+
+- Temperature threshold crossings  
+- State transitions  
+- EPP adjustments  
+
+Open Event Viewer → *Applications and Services Logs* → *ThermoPilot*.
+
+---
+
+## 5. Safety Notes
+
+ThermoPilot does **not** override OEM thermal limits, firmware protections, or CPU/GPU temperature caps.  
+It adjusts only EPP — a safe, reversible performance hint built into Windows.
+
+</details>
+
 # 📚 Documentation
 
 - [FAQ](FAQ.md)
