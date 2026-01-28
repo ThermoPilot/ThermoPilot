@@ -319,26 +319,29 @@ ThermoPilot is designed to be simple, safe, and community‑friendly.
 
 # 👤 About the Developer
 
-ThermoPilot is developed by a creator with a dual passion for **Windows performance engineering** and **cybersecurity (Blue Team / SOC analysis)**. My background includes hands‑on work in:
+ThermoPilot is developed by a creator with a unique blend of experience across  
+**HVAC‑R thermal systems**, **Windows performance engineering**, and **cybersecurity (Blue Team / SOC analysis)**.
 
-- Windows internals  
-- power management behavior  
-- performance tuning  
-- detection engineering  
-- log analysis  
-- threat monitoring  
-- system behavior profiling  
+My background includes:
 
-Building ThermoPilot has been just as rewarding as my work in cybersecurity. Both disciplines share a common thread: understanding how systems behave under stress, how to monitor them intelligently, and how to build tools that make them safer, faster, and more predictable.
+- HVAC‑R training in heat transfer, airflow dynamics, and system load balancing  
+- hands‑on troubleshooting across both physical and digital systems  
+- Windows internals, power‑management behavior, and hardware telemetry  
+- early‑stage Blue Team and SOC analyst training, with a strong focus on system behavior, detection logic, and monitoring  
 
-I’m actively transitioning these skills into a professional career — whether in:
+Although I’m still early in my cybersecurity journey, I learn quickly, retain information well, and approach every problem with a deep troubleshooting mindset. When I start something, I don’t stop until I understand it fully — that’s the same drive that led to ThermoPilot’s creation.
+
+ThermoPilot reflects the intersection of everything I enjoy:  
+**understanding systems, analyzing behavior, solving problems, and building tools that make technology safer and more efficient.**
+
+I’m actively transitioning these skills into a long‑term professional career — whether in:
 
 - Windows performance engineering  
 - gaming hardware optimization  
 - system‑level software development  
-- Blue Team / SOC analyst roles  
+- cybersecurity / SOC analysis  
 - or a hybrid role that blends both worlds  
 
-If you work in the Windows, gaming, hardware, or cybersecurity space and are interested in collaboration, integration, or professional opportunities, feel free to reach out through GitHub.
+I’m passionate about refining my craft, and moving into a full‑time role would allow me to take projects like ThermoPilot even further. If you work in the Windows, gaming, hardware, or cybersecurity space and are interested in collaboration, integration, or professional opportunities, feel free to reach out through GitHub.
 
 I would love to contribute to a team focused on improving system performance, protecting users, or building the next generation of Windows power and thermal technologies.
