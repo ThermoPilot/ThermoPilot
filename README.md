@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="assets/banner.png" width="100%" />
+</p>
 ThermoPilot – Acer Edition
 A lightweight, intelligent thermal governor for Windows 11 gaming laptops.
 
