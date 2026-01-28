@@ -314,3 +314,31 @@ ThermoPilot is free to use, modify, and distribute.
 
 Pull requests, feature suggestions, and improvements are welcome.  
 ThermoPilot is designed to be simple, safe, and community‑friendly.
+
+---
+
+# 👤 About the Developer
+
+ThermoPilot is developed by a creator with a dual passion for **Windows performance engineering** and **cybersecurity (Blue Team / SOC analysis)**. My background includes hands‑on work in:
+
+- Windows internals  
+- power management behavior  
+- performance tuning  
+- detection engineering  
+- log analysis  
+- threat monitoring  
+- system behavior profiling  
+
+Building ThermoPilot has been just as rewarding as my work in cybersecurity. Both disciplines share a common thread: understanding how systems behave under stress, how to monitor them intelligently, and how to build tools that make them safer, faster, and more predictable.
+
+I’m actively transitioning these skills into a professional career — whether in:
+
+- Windows performance engineering  
+- gaming hardware optimization  
+- system‑level software development  
+- Blue Team / SOC analyst roles  
+- or a hybrid role that blends both worlds  
+
+If you work in the Windows, gaming, hardware, or cybersecurity space and are interested in collaboration, integration, or professional opportunities, feel free to reach out through GitHub.
+
+I would love to contribute to a team focused on improving system performance, protecting users, or building the next generation of Windows power and thermal technologies.
