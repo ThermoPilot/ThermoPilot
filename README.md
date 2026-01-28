@@ -327,6 +327,10 @@ ThermoPilot is designed to be simple, safe, and community‑friendly.
 
 ---
 
+📧 Contact: ThermoPilot@outlook.com
+
+---
+
 # 👤 About the Developer
 
 ThermoPilot is developed by a creator with a unique blend of experience across  
