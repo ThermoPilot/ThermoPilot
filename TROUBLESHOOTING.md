@@ -1,6 +1,17 @@
 # ThermoPilot – Troubleshooting Guide
 
 ---
+## ❗ .NET Framework “Unhandled Exception” When Stopping ThermoPilot
+
+**Cause:**  
+You clicked the red ■ Stop button in PowerShell ISE.  
+ISE force‑terminates the script engine while the ThermoPilot GUI is still running.
+
+**Fix:**  
+Close ThermoPilot using its own **Close** button, or press **Ctrl + C** in the ISE console pane.
+
+**Notes:**  
+This is expected behavior for WinForms scripts in ISE and is not a ThermoPilot error.
 
 ## ❗ CPU Temp Shows 0°C, N/A, or Blank
 
@@ -28,7 +39,6 @@ Fix:
 
 Cause:  
 You ran the script **without saving it** in PowerShell ISE.
-
 Fix:  
 Save the script as `ThermoPilot.ps1` and run again.
 
@@ -46,4 +56,7 @@ Check:
 Try:
 
 ```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+
+**Notes:**  
+This is expected behavior for WinForms scripts in ISE and is not a ThermoPilot error.
