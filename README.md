@@ -8,11 +8,18 @@
 > **ThermoPilot Project Family**
 > - **Universal Edition (You Are Here)**
 > - [Acer Edition] (https://github.com/ThermoPilot/ThermoPilot-Acer)
-
+>   
 > **Using an Acer AMD laptop?**  
 > Acer systems use unique firmware behavior and require a dedicated EPP curve.  
 > For best results, download the Acer‑specific build here:  
 > 👉 https://github.com/ThermoPilot/ThermoPilot-Acer
+> > ### 🔍 Project Update  
+> A major breakthrough has been made in the Acer Edition involving a new method of maintaining EPP control on systems that normally override user settings.  
+>  
+> The full details will be revealed after the Acer Edition’s public release.  
+>  
+> 👉 **Read the ThermoPilot‑Acer Roadmap:**  
+> https://github.com/ThermoPilot/ThermoPilot-Acer/blob/main/ROADMAP.md
 
 ThermoPilot is a lightweight, intelligent thermal governor for Windows that dynamically adjusts CPU Energy Performance Preference (EPP) based on real‑time GPU and CPU temperatures. It delivers smoother performance, quieter operation, and safer thermals — all without touching firmware, drivers, or fan curves.
 
