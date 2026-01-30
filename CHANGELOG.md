@@ -1,81 +1,93 @@
-# Changelog  
-All notable changes to this project will be documented in this file.
+# ThermoPilot – Changelog
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)  
-and this project adheres to **Semantic Versioning**.
+All notable changes to this project will be documented in this file.  
+This project follows [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [1.0.0] – Initial Public Release
+## [1.0.1] – 2026-01-30
+### Refinements, Stability Improvements, and Documentation Polish
 
-### 🎉 Overview
-This is the first major public release of **ThermoPilot**, an intelligent thermal governor for Windows that dynamically adjusts CPU Energy Performance Preference (EPP) based on real‑time GPU and CPU temperatures. This release introduces the core architecture, GUI, thermal logic, and universal compatibility that define ThermoPilot’s design philosophy.
-
-### ✨ Added
-- **Dynamic GPU‑based thermal governor**  
-  - Cool, Warm, and Hot stages with automatic EPP adjustments  
-  - Real‑time GPU temperature monitoring  
-  - 2‑second adaptive update cycle  
-
-- **CPU hard‑override safety system**  
-  - CPU HOT (≥ 90°C) and CPU MAX (≥ 95°C) protection modes  
-  - Automatic fallback when CPU sensors are unavailable  
-
-- **Universal Edition**  
-  - Works on most Windows laptops and desktops  
-  - Supports Intel Speed Shift and AMD CPPC2  
-  - Fully Windows‑native and firmware‑safe  
-
-- **Acer Edition**  
-  - Designed for systems with locked CPU sensors  
-  - GPU‑only thermal governor with full functionality  
-
-- **Windows‑native EPP control**  
-  - No drivers, no firmware access, no EC writes  
-  - Safe, reversible, and OEM‑agnostic  
-
-- **Graphical User Interface (GUI)**  
-  - Real‑time temperature display  
-  - Current EPP state  
-  - Current thermal stage  
-  - CPU override indicators  
-  - Clean, simple, user‑friendly layout  
-
-- **Power plan integration**  
-  - Automatic creation of a ThermoPilot power plan  
-  - Continuous EPP updates without modifying clocks or voltages  
-
-- **Safe shutdown behavior**  
-  - Clean exit when closing the ThermoPilot window  
-  - Documentation for avoiding PowerShell ISE stop‑button exceptions  
-
-- **Documentation**  
-  - Full README with technical explanation  
+#### Updated
+- Improved GUI layout consistency across different DPI scaling levels  
+- Enhanced fallback behavior for systems with partial or missing telemetry  
+- Refined GPU‑only mode logic for systems without CPU temperature reporting  
+- Polished documentation across the entire project:
+  - README  
   - FAQ  
-  - Troubleshooting guide  
+  - Troubleshooting Guide  
+  - Roadmap  
+  - Security Policy  
   - Code of Conduct  
-  - Developer background and professional interest section  
+  - Contributing Guide  
+- Improved clarity around safe shutdown behavior in PowerShell ISE  
 
-### 🛠 Known Limitations
-- Some Acer systems hide CPU temperature sensors  
-- PowerShell ISE stop button causes .NET exceptions (expected behavior)  
-- Corporate‑managed systems may block power plan editing  
+#### Fixed
+- Minor UI alignment issues  
+- Occasional delayed EPP updates under rapid thermal fluctuations  
+- Edge‑case handling when CPU telemetry is unavailable  
 
-### 🔮 Future Plans
-- Optional fan telemetry integration  
-- Configurable thermal thresholds  
-- Custom EPP profiles  
-- Logging and analytics mode  
-- Standalone executable version  
+#### Notes
+- ThermoPilot continues to use a **validated, fixed thermal curve** to ensure predictable, safe, and universal behavior.  
+- User‑adjustable EPP values and custom thermal thresholds will **not** be introduced to prevent misconfiguration and instability.
 
 ---
 
-## v1.0.1 — GUI & OEM Lock Detection Improvements
-- Added OEM EPP‑lock detection for systems with firmware‑forced overrides
-- Added Acer EC override messaging with referral to ThermoPilot‑Acer Edition
-- Improved GUI layout and spacing for clarity
-- Increased panel height to prevent clipping
-- Adjusted label sizing and wrapping for multi‑line messages
-- Centered and aligned all text elements for a cleaner visual layout
-- Improved stability of EPP writeback reporting
-- Minor cosmetic refinements for readability
+## [1.0.0] – 2026-01-29
+### Initial Public Release (Universal Edition)
+
+#### Added
+- Dynamic GPU‑driven thermal governor  
+- CPU hard‑override safety system  
+- Real‑time EPP adjustment every 2 seconds  
+- Automatic ThermoPilot power plan creation  
+- GPU‑based thermal stages (Cool / Warm / Hot)  
+- CPU temperature override thresholds  
+- Universal telemetry support via LibreHardwareMonitor  
+- Real‑time GUI with:
+  - GPU temperature  
+  - CPU temperature (if available)  
+  - current EPP value  
+  - active thermal stage  
+  - CPU override status  
+- Clean shutdown behavior  
+- Safe fallback to GPU‑only mode when CPU telemetry is unavailable  
+- Full documentation set:
+  - README  
+  - Troubleshooting Guide  
+  - FAQ  
+  - Security Policy  
+  - Code of Conduct  
+  - Roadmap  
+  - Contributing Guide  
+
+#### Notes
+- ThermoPilot uses only Windows power APIs and standard telemetry.  
+- No firmware, EC, voltage, or fan‑curve modifications are performed.  
+- Designed for universal compatibility across Windows 10/11 systems.
+
+---
+
+## [Unreleased]
+### Planned (Non‑Thermal Enhancements Only)
+
+ThermoPilot will continue using a **fixed, validated thermal curve** to ensure safe, predictable behavior across all systems.  
+User‑adjustable EPP values and custom thermal thresholds will **not** be added.
+
+#### Upcoming Improvements
+- Optional CPU‑only or GPU‑only modes (when telemetry is limited)  
+- User‑selectable update interval (1–5 seconds)  
+- Configurable logging level (minimal, normal, verbose)  
+
+#### UI Enhancements
+- Settings panel for non‑thermal preferences  
+- Theme options (light/dark)  
+- Optional detailed temperature graphs  
+- Optional taskbar temperature indicator  
+
+#### Long‑Term Goals
+- Standalone EXE version (PowerShell‑free)  
+- Predictive thermal modeling  
+- Enhanced system‑behavior analytics  
+
+See the **Roadmap** for full details.
