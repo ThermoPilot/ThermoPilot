@@ -1,12 +1,9 @@
 # Contributing to ThermoPilot
 
-Thank you for your interest in contributing to ThermoPilot!  
-This project welcomes respectful collaboration, ideas, and improvements from users
-of all experience levels.
+Thank you for your interest in contributing to ThermoPilot.  
+This project welcomes respectful collaboration, ideas, and improvements from users of all experience levels.
 
-ThermoPilot is built at the intersection of thermal engineering, Windows
-performance tuning, and system behavior analysis. Contributions that support
-clarity, safety, and reliability are especially appreciated.
+ThermoPilot sits at the intersection of thermal engineering, Windows performance tuning, and system behavior analysis. Contributions that support clarity, safety, and reliability are especially appreciated.
 
 ---
 
@@ -20,14 +17,13 @@ While contributions are welcome, the maintainer reserves the right to:
 - decline contributions that conflict with the project’s goals  
 - maintain consistency in design, tone, and implementation  
 
-This ensures the project remains stable, safe, and aligned with its long‑term
-vision.
+This ensures the project remains stable, safe, and aligned with its long‑term vision.
 
 ---
 
 ## 📝 How to Contribute
 
-### 1. Open an Issue First  
+### 1. Open an Issue First
 Before submitting a pull request, please open an issue to discuss:
 
 - bugs  
@@ -38,14 +34,14 @@ Before submitting a pull request, please open an issue to discuss:
 
 This helps avoid duplicate work and ensures alignment with the project’s goals.
 
-### 2. Fork the Repository  
+### 2. Fork the Repository
 Create your own fork and work from a feature branch.
 
-### 3. Keep Changes Focused  
+### 3. Keep Changes Focused
 Small, clear contributions are easier to review and merge.  
 Large or multi‑feature pull requests may be requested to split into smaller parts.
 
-### 4. Follow the Project’s Style  
+### 4. Follow the Project’s Style
 Please keep your contributions consistent with:
 
 - existing code structure  
@@ -53,7 +49,7 @@ Please keep your contributions consistent with:
 - documentation tone  
 - safety‑first design philosophy  
 
-### 5. Submit a Pull Request  
+### 5. Submit a Pull Request
 Include:
 
 - a clear description of the change  
@@ -75,8 +71,7 @@ To protect the project’s integrity, the following will not be merged:
 - contributions that introduce instability or unnecessary complexity  
 - attempts to rebrand, fork‑takeover, or redirect the project’s identity  
 
-ThermoPilot will always remain a safe, Windows‑native, telemetry‑driven thermal
-governor.
+ThermoPilot will always remain a safe, Windows‑native, telemetry‑driven thermal governor.
 
 ---
 
@@ -114,15 +109,12 @@ ThermoPilot is maintained by a developer with experience in:
 - hands‑on troubleshooting  
 - early‑stage Blue Team / SOC analysis  
 
-While still growing in the cybersecurity and software development fields, the
-maintainer is committed to building ThermoPilot with care, clarity, and
-professionalism.
+The maintainer is committed to building ThermoPilot with care, clarity, and professionalism.
 
 ---
 
 ## 📬 Contact
 
-For collaboration or professional inquiries, please use the contact information
-listed in the README or on the GitHub profile.
+For collaboration or professional inquiries, please use the contact information listed in the README or on the GitHub profile.
 
 Thank you for helping make ThermoPilot better.
