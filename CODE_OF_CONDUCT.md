@@ -1,6 +1,6 @@
 # ThermoPilot Code of Conduct
 
-ThermoPilot is an open‑source project built with care, curiosity, and a genuine desire to help people get more stability, performance, and insight from their Windows systems. This project welcomes users, contributors, and learners of all backgrounds and experience levels.
+ThermoPilot is an open‑source project built with care, curiosity, and a commitment to helping people achieve more stability, performance, and insight from their Windows systems. This project welcomes users, contributors, and learners of all backgrounds and experience levels.
 
 To keep this community healthy, respectful, and productive, the following expectations apply to everyone who interacts with the project.
 
@@ -14,7 +14,7 @@ To keep this community healthy, respectful, and productive, the following expect
 - **Inclusivity** – Everyone is welcome, regardless of background or skill level.  
 - **Integrity** – Be honest about your experience, your intentions, and your contributions.  
 
-ThermoPilot was built by someone who came from HVAC‑R, transitioned into cybersecurity, and learned system‑level engineering through passion and persistence. This project embraces people who are learning, growing, and improving — no matter where they started.
+ThermoPilot embraces people who are learning, growing, and improving — no matter where they started.
 
 ---
 
@@ -43,7 +43,8 @@ ThermoPilot was built by someone who came from HVAC‑R, transitioned into cyber
 
 ## 🛠 Reporting Issues
 
-If you encounter behavior that violates this Code of Conduct, please open an issue on GitHub or contact the project maintainer directly. Reports will be handled respectfully and privately.
+If you encounter behavior that violates this Code of Conduct, please open an issue on GitHub or contact the project maintainer directly.  
+Reports will be handled respectfully and privately.
 
 ---
 
@@ -53,12 +54,12 @@ ThermoPilot is maintained by a developer who is actively expanding skills in:
 
 - Windows internals  
 - performance engineering  
-- cybersecurity (Blue Team / SOC analysis)  
+- cybersecurity and system analysis  
 - troubleshooting and system behavior  
 - software development and open‑source collaboration  
 
 This project is a space for learning, improvement, and community — not perfection.  
-Contributors of all experience levels are welcome, especially those who are learning fast and eager to grow.
+Contributors of all experience levels are welcome, especially those who are learning quickly and eager to grow.
 
 ---
 
