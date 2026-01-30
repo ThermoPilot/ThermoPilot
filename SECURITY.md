@@ -1,8 +1,6 @@
 # Security Policy
 
-ThermoPilot is designed to operate safely using standard Windows APIs and
-temperature telemetry. It does not modify firmware, voltages, or hardware-level
-settings. Responsible reporting of issues is appreciated.
+ThermoPilot is designed with a safety‑first philosophy. It operates exclusively through standard Windows APIs and temperature telemetry. It does not modify firmware, voltages, or hardware‑level settings. Responsible reporting of issues is appreciated.
 
 ---
 
@@ -19,14 +17,13 @@ settings. Responsible reporting of issues is appreciated.
 
 Please report security concerns **privately** rather than opening a public issue.
 
-Contact the maintainer through the email listed on the GitHub profile or in the
-README. Include:
+Contact the maintainer using the email listed on the GitHub profile or in the README. When reporting a concern, include:
 
 - a clear description of the issue  
 - steps to reproduce (if applicable)  
-- system details (Windows version, CPU/GPU, OEM model)  
+- system details (Windows version, CPU/GPU, hardware model)  
 
-Reports are handled confidentially.
+All reports are handled confidentially.
 
 ---
 
@@ -38,18 +35,20 @@ ThermoPilot interacts only with:
 - standard system APIs  
 - LibreHardwareMonitor telemetry  
 
-It does **not**:
+ThermoPilot does **not**:
 
-- modify firmware or EC registers  
-- change voltages or multipliers  
-- install drivers or services  
+- modify firmware or embedded controller registers  
+- change voltages, multipliers, or boost behavior  
+- install drivers, services, or background processes  
+- perform any privileged operations beyond standard Windows power configuration  
 
 Security concerns should focus on:
 
 - unexpected system behavior  
 - incorrect EPP application  
 - misleading UI states  
-- privilege escalation risks (none expected)
+- privilege escalation risks (none expected)  
+- telemetry inconsistencies  
 
 ---
 
@@ -59,4 +58,6 @@ The project will continue to evolve with a focus on:
 
 - safe, predictable behavior  
 - transparent design  
-- timely handling of reported issues  
+- responsible handling of system telemetry  
+- timely responses to reported issues  
+- maintaining compatibility with standard Windows environments  
