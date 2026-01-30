@@ -204,7 +204,7 @@ $labelLock.Size = New-Object System.Drawing.Size(430,60)
 $labelLock.TextAlign = 'TopLeft'
 $labelLock.AutoEllipsis = $false
 
-$labelLock.Text = "OEM Lock: Not Detected"
+$labelLock.Text = "EPP Status: Normal"
 $panel.Controls.Add($labelLock)
 
 $footer = New-Object System.Windows.Forms.Label
@@ -314,9 +314,9 @@ $timer.Add_Tick({
         }
 
         if ($wroteThisTick -and -not $cpuOverrideActive -and $stageName -eq $currentStageName) {
-            $labelLock.Text = "OEM Lock: Detected (Acer EC override) – Use ThermoPilot-Acer"
+            $labelLock.Text = "EPP Status: System Overriding Value"
         } else {
-            $labelLock.Text = "OEM Lock: Not Detected"
+            $labelLock.Text = "Epp Status: Normal"
         }
     }
     catch {
