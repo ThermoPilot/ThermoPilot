@@ -183,8 +183,11 @@ $labelPlan.Text = "Active Plan: ?"
 $panel.Controls.Add($labelPlan)
 
 $labelStage = New-Object System.Windows.Forms.Label
-$labelStage.Location = New-Object System.Drawing.Point(10,100)
-$labelStage.Size = New-Object System.Drawing.Size(430,25)
+$labelStage.AutoSize = $false
+$labelStage.Size = New-Object System.Drawing.Size(430, 25)   # full width, readable
+$labelStage.Location = New-Object System.Drawing.Point(10, 100)   # correct vertical order
+$labelStage.Font = New-Object System.Drawing.Font("Segoe UI", 10)
+$labelStage.TextAlign = "MiddleLeft"
 $labelStage.Text = "Stage: ?"
 $panel.Controls.Add($labelStage)
 
@@ -201,7 +204,7 @@ $labelLock.AutoSize = $false
 $labelLock.MaximumSize = New-Object System.Drawing.Size(430,0)
 $labelLock.Size = New-Object System.Drawing.Size(430,60)
 
-$labelLock.TextAlign = 'TopLeft'
+$labelLock.TextAlign = 'MiddleLeft'
 $labelLock.AutoEllipsis = $false
 
 $labelLock.Text = "EPP Status: Normal"
@@ -313,11 +316,13 @@ $timer.Add_Tick({
             $labelEpp.Text = "Last EPP Write: $lastEppValue at $lastEppTime"
         }
 
-        if ($wroteThisTick -and -not $cpuOverrideActive -and $stageName -eq $currentStageName) {
-            $labelLock.Text = "EPP Status: System Overriding Value"
-        } else {
-            $labelLock.Text = "Epp Status: Normal"
-        }
+     if ($wroteThisTick -and -not $cpuOverrideActive -and $stageName -eq $currentStageName) {
+    $labelLock.Text = "EPP Status: System Overriding Value"
+    $labelLock.ForeColor = [System.Drawing.Color]::Red
+} else {
+    $labelLock.Text = "EPP Status: Normal"
+    $labelLock.ForeColor = [System.Drawing.Color]::Black
+}
     }
     catch {
         $labelStage.Text = "Stage: Error - $($_.Exception.Message)"
