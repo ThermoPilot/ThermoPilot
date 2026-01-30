@@ -53,14 +53,6 @@ Security concerns should focus on:
 
 ---
 
-## Maintainer
-
-ThermoPilot is maintained by a developer with a background in HVAC‑R thermal
-systems, hands-on troubleshooting, and early-stage Blue Team/SOC analysis
-training. Safety, clarity, and responsible disclosure are priorities.
-
----
-
 ## Commitment
 
 The project will continue to evolve with a focus on:
