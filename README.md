@@ -1,25 +1,9 @@
 <p align="center">
   <img src="assets/banner.png" width="100%" />
 </p>
-# ThermoPilot – Intelligent Thermal Governor for Windows  
-**Dynamic GPU‑driven performance control. CPU‑aware safety. Zero firmware hacks.**
 
-<!-- Project Family Navigation -->
-> **ThermoPilot Project Family**
-> - **Universal Edition (You Are Here)**
-> - [Acer Edition] (https://github.com/ThermoPilot/ThermoPilot-Acer)
->   
-> **Using an Acer AMD laptop?**  
-> Acer systems use unique firmware behavior and require a dedicated EPP curve.  
-> For best results, download the Acer‑specific build here:  
-> 👉 https://github.com/ThermoPilot/ThermoPilot-Acer
-> > ### 🔍 Project Update  
-> A major breakthrough has been made in the Acer Edition involving a new method of maintaining EPP control on systems that normally override user settings.  
->  
-> The full details will be revealed after the Acer Edition’s public release.  
->  
-> 👉 **Read the ThermoPilot‑Acer Roadmap:**  
-> https://github.com/ThermoPilot/ThermoPilot-Acer/blob/main/ROADMAP.md
+# ThermoPilot – Intelligent Thermal Governor for Windows
+**Dynamic GPU‑driven performance control. CPU‑aware safety. Zero firmware access.**
 
 ThermoPilot is a lightweight, intelligent thermal governor for Windows that dynamically adjusts CPU Energy Performance Preference (EPP) based on real‑time GPU and CPU temperatures. It delivers smoother performance, quieter operation, and safer thermals — all without touching firmware, drivers, or fan curves.
 
@@ -30,7 +14,7 @@ ThermoPilot fills a gap that Windows and OEM tools never addressed:
 
 # 🌟 Why ThermoPilot Exists
 
-Modern laptops push hardware harder than ever:
+Modern laptops and compact systems push hardware harder than ever:
 
 - shared CPU/GPU thermal budgets  
 - aggressive boost algorithms  
@@ -99,7 +83,7 @@ ThermoPilot combines:
 
 If the CPU overheats, ThermoPilot immediately raises EPP to reduce boost pressure — even if the GPU is cool.
 
-This hybrid logic mirrors how high‑end gaming laptops manage thermals internally.
+This hybrid logic mirrors how high‑end systems manage thermals internally.
 
 ---
 
@@ -134,24 +118,15 @@ This makes it:
 ThermoPilot doesn’t fight modern CPU boost technologies — it **guides** them.
 
 ### ✔ Intel Speed Shift (HWP)
-Intel Speed Shift uses EPP as its primary hint for:
-
-- responsiveness  
-- boost aggressiveness  
-- power draw  
-- thermal behavior  
-
 ThermoPilot dynamically adjusts EPP, which Speed Shift responds to instantly.
 
-This gives you:
+Benefits:
 
 - smoother boost behavior  
 - fewer thermal spikes  
 - more consistent performance  
 
 ### ✔ AMD CPPC2
-AMD’s CPPC2 system also uses EPP as a performance hint.
-
 ThermoPilot’s dynamic EPP adjustments allow AMD CPUs to:
 
 - boost harder when cool  
@@ -163,29 +138,17 @@ ThermoPilot works *with* the CPU, not against it.
 
 ---
 
-## 🔹 6. Universal Compatibility (Even on Locked Systems)
+## 🔹 6. Universal Compatibility
 
 ThermoPilot works on:
 
-- Intel  
-- AMD  
-- NVIDIA  
-- Acer  
-- ASUS  
-- MSI  
-- Lenovo  
-- Dell  
-- HP  
-- desktops  
-- laptops  
+- Intel and AMD CPUs  
+- NVIDIA and AMD GPUs  
+- Windows 10 and 11  
+- laptops and desktops  
+- systems with full or partial telemetry  
 
-Even on systems with locked CPU sensors (Acer), ThermoPilot still provides:
-
-- full GPU‑based thermal control  
-- stable performance  
-- safe EPP behavior  
-
-The Acer Edition ensures compatibility even when CPU telemetry is hidden.
+If CPU telemetry is unavailable, ThermoPilot automatically falls back to **GPU‑only mode**, which remains safe and fully supported.
 
 ---
 
@@ -210,7 +173,7 @@ ThermoPilot is the missing thermal layer Windows never built.
 # 🖥️ Editions
 
 ## **Universal Edition**
-For most systems. Supports:
+The primary public release. Supports:
 
 - GPU temperature detection  
 - CPU temperature detection (if exposed by firmware)  
@@ -218,16 +181,7 @@ For most systems. Supports:
 - CPU hard‑override safety  
 - dynamic EPP control  
 
-## **Acer Edition**
-For Acer laptops with locked CPU sensors.
-
-Acer firmware often hides CPU temperature from Windows and from tools like LibreHardwareMonitor. When this happens:
-
-- CPU temp shows **0°C**, **N/A**, or stays blank  
-- CPU override cannot activate  
-- GPU governor still works perfectly  
-
-If your CPU temp does not display, use the **Acer Edition**.
+If CPU telemetry is unavailable, ThermoPilot automatically uses GPU‑only mode.
 
 ---
 
@@ -250,7 +204,7 @@ If CPU temperature is available:
 - **≥ 90°C** → EPP 60 (CPU HOT)  
 - **≥ 95°C** → EPP 90 (CPU MAX)  
 
-If CPU temp is hidden (Acer), this feature is automatically disabled.
+If CPU telemetry is unavailable, this feature is automatically disabled.
 
 ---
 
@@ -258,9 +212,8 @@ If CPU temp is hidden (Acer), this feature is automatically disabled.
 
 ![ThermoPilot GUI](assets/ThermoPilot_GUI.png)
 
-The ThermoPilot GUI provides real‑time visibility into GPU and CPU temperatures,
-current EPP value, active thermal stage, and CPU override status — all presented
-in a clean, lightweight interface designed for clarity and ease of use.
+The GUI provides real‑time visibility into GPU and CPU temperatures,  
+current EPP value, active thermal stage, and CPU override status — all in a clean, lightweight interface.
 
 ---
 
@@ -280,31 +233,66 @@ ThermoPilot adjusts EPP **continuously**, so it simply takes priority.
 
 ---
 
-# 🛑 Stopping ThermoPilot Safely (Important)
+# 🖥️ Laptops vs Desktops — Who Benefits Most?
 
-If you run ThermoPilot inside **PowerShell ISE**, do **not** click the red ■ Stop button.
+## ✔ Laptops (Highest Benefit)
+Most laptops use **shared heatpipes**, meaning CPU and GPU thermals affect each other.
 
-PowerShell ISE force‑kills the script engine while the ThermoPilot window is still running, causing a .NET Framework **Unhandled Exception** dialog.
+ThermoPilot helps by:
 
-This is normal for *any* WinForms script in ISE.
+- reducing CPU spikes that steal GPU thermal headroom  
+- improving sustained GPU clocks  
+- reducing thermal throttling  
+- smoothing long‑session performance  
 
-### ✔ Correct ways to stop ThermoPilot
-- Click the **Close** button inside the ThermoPilot window  
-- Press **Ctrl + C** in the ISE console pane  
-- Run ThermoPilot from Windows Terminal or PowerShell.exe  
+## ✔ Desktops (Moderate Benefit)
+Desktops typically have **separate cooling**, so thermal interaction is minimal.
 
-ThermoPilot shuts down cleanly when closed from its own window.
+ThermoPilot helps by:
+
+- smoothing CPU boost behavior  
+- reducing fan ramping  
+- improving long‑session stability  
+
+But desktops do **not** gain GPU performance.
+
+---
+
+# 🎮 Game Behavior — Who Sees Gains?
+
+## ✔ GPU‑Heavy Games (Best Case)
+- Cyberpunk 2077  
+- Red Dead Redemption 2  
+- Hogwarts Legacy  
+
+ThermoPilot improves:
+
+- sustained GPU clocks  
+- frame pacing  
+- thermal stability  
+
+## ✔ Balanced Games (Moderate Benefit)
+- Apex Legends  
+- Warzone  
+- Fortnite  
+
+## ✔ CPU‑Heavy Games (Low or No Benefit)
+- Cities Skylines  
+- Factorio  
+- Minecraft (Java)  
+
+CPU‑bound games rely heavily on CPU turbo behavior, so gains are minimal.
 
 ---
 
 # 📦 Installation
 
-1. Download the edition appropriate for your system.  
+1. Download the Universal Edition.  
 2. Place `ThermoPilot.ps1` and `LibreHardwareMonitorLib.dll` in the same folder.  
 3. (Optional) Add your ThermoPilot logo PNG.  
-4. Open PowerShell ISE.  
-5. Load the script and **save it** before running.  
-6. Press **F5** to launch the GUI.
+4. Open PowerShell or Windows Terminal.  
+5. Run the script (saving is required if using ISE).  
+6. Press **F5** or run `.\ThermoPilot.ps1`.
 
 ---
 
@@ -314,87 +302,46 @@ ThermoPilot shuts down cleanly when closed from its own window.
 - Windows 10 / 11  
 - Intel and AMD CPUs  
 - NVIDIA and AMD GPUs  
-- Laptops and desktops  
-- OEM systems (Acer, ASUS, MSI, Lenovo, Dell, HP, etc.)  
+- laptops and desktops  
 
 ### ❗ Limitations:
-- Some Acer laptops hide CPU sensors → use Acer Edition  
-- Some corporate systems lock power‑plan editing  
+- Some systems restrict CPU telemetry  
+- Some corporate devices lock power‑plan editing  
 
 ---
 
-<details>
-<summary><strong>How to Verify ThermoPilot Is Working</strong></summary>
+# 🔍 How to Verify ThermoPilot Is Working
 
-ThermoPilot actively adjusts the system’s Energy Performance Preference (EPP) based on real CPU/GPU temperatures.  
-If you want to confirm that it’s functioning as described, the commands below let you verify everything in real time.
+## 1. Check Live EPP Values
+Run: powercfg /query SCHEME_CURRENT SUB_PROCESSOR PERFENERGYPREFERENCE
+You will see EPP change as ThermoPilot adjusts it.
 
----
-
-## 1. Check Live EPP Values:
-ThermoPilot‑Universal adjusts EPP directly inside the user’s active Windows power plan. It does not create, modify, or switch power plans. You can verify this by opening a seperate PowerShell window and running: powercfg /query SCHEME_CURRENT SUB_PROCESSOR PERFENERGYPREFERENCE and watching the Power Setting Index (EPP) change under different loads. This value is reported directly by Windows and confirms that EPP is being updated in real time.
-
-
-- Let the system idle → EPP should rise  
-- Start a light load → EPP should lower  
-- Run a heavy GPU/CPU load → EPP should drop to its minimum  
-
-You will see the value change as ThermoPilot adjusts it.
-
----
-
-
-## 2. Confirm Temperature Readings Match
-
-ThermoPilot reads telemetry from LibreHardwareMonitor.  
-You can verify the same sensor values using:
+## 2. Confirm Temperature Readings
+Compare with:
 
 - LibreHardwareMonitor  
 - HWiNFO  
 - OpenHardwareMonitor  
 
-The temperatures shown in these tools will match what ThermoPilot uses internally.
+## 3. Trigger State Changes
+- Idle → EPP rises  
+- Moderate load → EPP adjusts  
+- Heavy GPU load → EPP drops  
+
+## 4. Optional: Check Event Log
+If logging is enabled, entries appear under:
+
+**Event Viewer → Applications and Services Logs → ThermoPilot**
 
 ---
-
-## 3. Trigger State Changes Manually
-
-You can force ThermoPilot to react by applying different loads:
-
-- **Idle:** close all apps → EPP rises  
-- **Moderate load:** browser benchmark → EPP adjusts  
-- **Heavy load:** GPU stress test → EPP drops  
-
-Run the EPP query command above while doing this to watch changes live.
-
----
-
-## 4. Optional: Check Event Log Entries
-
-If logging is enabled, ThermoPilot writes entries for:
-
-- Temperature threshold crossings  
-- State transitions  
-- EPP adjustments  
-
-Open Event Viewer → *Applications and Services Logs* → *ThermoPilot*.
-
----
-
-## 5. Safety Notes
-
-ThermoPilot does **not** override OEM thermal limits, firmware protections, or CPU/GPU temperature caps.  
-It adjusts only EPP — a safe, reversible performance hint built into Windows.
-
-</details>
 
 # 📚 Documentation
 
-- [FAQ](FAQ.md)
-- [Troubleshooting](TROUBLESHOOTING.md)
-- [Roadmap](ROADMAP.md)
-- [Contributing](CONTRIBUTING.md)
-- [License](LICENSE)
+- [FAQ](FAQ.md)  
+- [Troubleshooting](TROUBLESHOOTING.md)  
+- [Roadmap](ROADMAP.md)  
+- [Contributing](CONTRIBUTING.md)  
+- [License](LICENSE)  
 
 ---
 
@@ -419,21 +366,19 @@ ThermoPilot is designed to be simple, safe, and community‑friendly.
 # 👤 About the Developer
 
 ThermoPilot is developed by a creator with a unique blend of experience across  
-**HVAC‑R thermal systems**, **Windows performance engineering**, and **cybersecurity (Blue Team / SOC analysis)**.
+**HVAC‑R thermal systems**, **Windows performance engineering**, and **cybersecurity/system analysis**.
 
 My background includes:
 
 - HVAC‑R training in heat transfer, airflow dynamics, and system load balancing  
 - hands‑on troubleshooting across both physical and digital systems  
 - Windows internals, power‑management behavior, and hardware telemetry  
-- early‑stage Blue Team and SOC analyst training, with a strong focus on system behavior, detection logic, and monitoring  
-
-Although I’m still early in my cybersecurity journey, I learn quickly, retain information well, and approach every problem with a deep troubleshooting mindset. When I start something, I don’t stop until I understand it fully — that’s the same drive that led to ThermoPilot’s creation.
+- early‑stage cybersecurity/SOC analysis training  
 
 ThermoPilot reflects the intersection of everything I enjoy:  
 **understanding systems, analyzing behavior, solving problems, and building tools that make technology safer and more efficient.**
 
-I’m actively transitioning these skills into a long‑term professional career — whether in:
+I’m actively transitioning these skills into a long‑term professional career in:
 
 - Windows performance engineering  
 - gaming hardware optimization  
@@ -441,6 +386,4 @@ I’m actively transitioning these skills into a long‑term professional career
 - cybersecurity / SOC analysis  
 - or a hybrid role that blends both worlds  
 
-I’m passionate about refining my craft, and moving into a full‑time role would allow me to take projects like ThermoPilot even further. If you work in the Windows, gaming, hardware, or cybersecurity space and are interested in collaboration, integration, or professional opportunities, feel free to reach out through GitHub.
-
-I would love to contribute to a team focused on improving system performance, protecting users, or building the next generation of Windows power and thermal technologies.
+If you work in the Windows, gaming, hardware, or cybersecurity space and are interested in collaboration or professional opportunities, feel free to reach out through GitHub.
