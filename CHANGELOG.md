@@ -70,5 +70,12 @@ This is the first major public release of **ThermoPilot**, an intelligent therma
 
 ---
 
-## [Unreleased]
-Planned improvements and features will be tracked here as development continues.
+## v1.0.1 — GUI & OEM Lock Detection Improvements
+- Added OEM EPP‑lock detection for systems with firmware‑forced overrides
+- Added Acer EC override messaging with referral to ThermoPilot‑Acer Edition
+- Improved GUI layout and spacing for clarity
+- Increased panel height to prevent clipping
+- Adjusted label sizing and wrapping for multi‑line messages
+- Centered and aligned all text elements for a cleaner visual layout
+- Improved stability of EPP writeback reporting
+- Minor cosmetic refinements for readability
