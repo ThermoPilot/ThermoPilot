@@ -1,17 +1,17 @@
 # ThermoPilot – Frequently Asked Questions
 
+---
 
 ## ❓ Why do I get a .NET Framework “Unhandled Exception” when stopping ThermoPilot?
 
-This happens only when running ThermoPilot inside **PowerShell ISE** and clicking the red ■ Stop button.
+This occurs only when running ThermoPilot inside **PowerShell ISE** and clicking the red ■ Stop button.
 
 PowerShell ISE does not gracefully stop WinForms applications. When you click Stop:
 
 - ISE immediately kills the PowerShell script engine  
 - The ThermoPilot window is still running  
-- The timer is still running  
-- The WinForms message loop is still running  
-- The form tries to update itself  
+- The timer and message loop are still active  
+- The form attempts to update itself  
 - But the PowerShell host is gone  
 - .NET throws an “Unhandled Exception” dialog  
 
@@ -26,29 +26,26 @@ Use one of these safe shutdown methods:
 
 ### ✔ Is this a ThermoPilot bug?
 No.  
-It is a PowerShell ISE limitation and affects all WinForms scripts.
-
-ThermoPilot shuts down cleanly when closed from its own window.
+It is a PowerShell ISE limitation. ThermoPilot shuts down cleanly when closed from its own window.
 
 ---
 
 ## ❓ Why does my CPU temperature show 0°C, N/A, or stay blank?
 
-Your laptop likely has **firmware‑locked CPU sensors**.
+Some systems do not expose CPU temperature sensors through standard telemetry.  
+When this happens:
 
-Acer (and a few other OEMs) hide CPU temperature from Windows and from tools like LibreHardwareMonitor. When this happens:
-
-- CPU temp cannot be read  
+- CPU temperature cannot be read  
 - CPU override cannot activate  
-- GPU governor still works normally  
+- GPU‑based thermal control still works normally  
 
-Use the **Acer Edition** if this applies to you.
+ThermoPilot automatically falls back to **GPU‑only mode**, which is safe and fully supported.
 
 ---
 
 ## ❓ Does ThermoPilot conflict with OEM tools like PredatorSense or Armoury Crate?
 
-No — not in a harmful way.
+No.
 
 ThermoPilot:
 
@@ -57,7 +54,7 @@ ThermoPilot:
 - does not access EC registers  
 - only writes EPP through Windows power APIs  
 
-OEM tools set EPP **once** when you choose a mode.  
+OEM tools typically set EPP **once** when you choose a mode.  
 ThermoPilot adjusts EPP **continuously**, so it simply takes priority.
 
 ---
@@ -67,13 +64,13 @@ ThermoPilot adjusts EPP **continuously**, so it simply takes priority.
 Because:
 
 - Windows was never designed to be a thermal governor  
-- Microsoft expects OEMs to handle cooling  
+- Microsoft expects OEMs to manage cooling  
 - There is no universal thermal API  
 - GPU temperature is not part of Windows  
 - OEM tools all work differently  
-- EPP was never meant to be dynamic  
+- EPP was never intended to be dynamic  
 
-ThermoPilot fills a gap that no one else addressed.
+ThermoPilot fills a gap that no existing tool addresses.
 
 ---
 
@@ -84,7 +81,7 @@ Yes.
 ThermoPilot uses:
 
 - Windows power APIs  
-- Standard powercfg commands  
+- standard powercfg commands  
 - LibreHardwareMonitor for sensor reading  
 
 It does **not**:
@@ -93,7 +90,7 @@ It does **not**:
 - change fan curves  
 - force clocks  
 - write to EC registers  
-- install drivers  
+- install drivers or services  
 
 It is fully reversible and safe.
 
@@ -103,7 +100,8 @@ It is fully reversible and safe.
 
 Yes.
 
-Desktops expose CPU and GPU sensors normally, so the Universal Edition works perfectly.
+Desktops expose CPU and GPU sensors normally, and ThermoPilot works as expected.  
+Desktops benefit mainly from smoother CPU behavior and reduced fan ramping.
 
 ---
 
@@ -116,7 +114,7 @@ EPP is supported by:
 - Intel Speed Shift  
 - AMD CPPC2  
 
-ThermoPilot works on both.
+ThermoPilot works with both technologies.
 
 ---
 
@@ -139,8 +137,8 @@ Because EPP is:
 - supported by Intel and AMD  
 - designed for dynamic performance scaling  
 
-Direct clock control is unsafe and OEM‑specific.  
-EPP is the correct mechanism for a universal tool.
+Direct clock control is OEM‑specific and unsafe for a universal tool.  
+EPP is the correct mechanism for cross‑platform performance tuning.
 
 ---
 
@@ -151,7 +149,7 @@ Because:
 - GPU heat is the main cause of throttling in modern laptops  
 - GPU load often determines system temperature  
 - CPU and GPU share thermal budgets  
-- GPU temp is a better predictor of fan behavior  
+- GPU temperature is a better predictor of sustained performance  
 
 CPU override still protects the CPU when needed.
 
@@ -172,34 +170,51 @@ ThermoPilot stops immediately.
 No background processes remain.
 
 ---
-❗ EPP Not Changing
+
+# ⚠️ Common Issues
+
+## ❗ EPP Not Changing
 Possible causes:
-- OEM tool constantly rewriting EPP
-- Running multiple tuning tools
-- Power plan locked by corporate policy
-Fix:
-- Close OEM performance tools
-- Use ThermoPilot exclusively
-- Ensure ThermoPilot plan is active
 
-❗ Power Plan Not Switching
-Cause:
+- OEM tool constantly rewriting EPP  
+- Running multiple tuning tools  
+- Power plan locked by corporate policy  
+
+Fix:
+
+- Close OEM performance tools  
+- Use ThermoPilot exclusively  
+- Ensure the active power plan is editable  
+
+---
+
+## ❗ Power Plan Not Switching
+Cause:  
 Windows may be stuck on a custom OEM plan.
-Fix:
-- Delete unused OEM plans
-- Recreate the ThermoPilot plan
-- Run PowerShell as Administrator
 
-❗ GUI Looks Cut Off or Misaligned
-Cause:
+Fix:
+
+- Delete unused OEM plans  
+- Recreate the ThermoPilot plan  
+- Run PowerShell as Administrator  
+
+---
+
+## ❗ GUI Looks Cut Off or Misaligned
+Cause:  
 WinForms scaling on high‑DPI displays.
-Fix:
-- Ensure Windows scaling is 100–125%
-- Resize the window
-- Use the latest version of ThermoPilot
 
-❗ CPU Override Never Activates
-Cause:
-CPU temperature is not available (Acer firmware lock).
 Fix:
-Use the Acer Edition.
+
+- Ensure Windows scaling is 100–125%  
+- Resize the window  
+- Use the latest version of ThermoPilot  
+
+---
+
+## ❗ CPU Override Never Activates
+Cause:  
+CPU temperature is not available on your system.
+
+Fix:  
+ThermoPilot will automatically operate in GPU‑only mode when CPU telemetry is unavailable.
