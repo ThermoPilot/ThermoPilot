@@ -1,15 +1,14 @@
-# ThermoPilot - Universal Edition (v1.1)
-# GPU-primary thermal governor with CPU hard safety override
-# Save as: ThermoPilot.ps1
-# Run from: PowerShell ISE script pane (top) with F5
+# ThermoPilot Universal Edition v1.0
+# Pure Universal EPP Governor for Windows
+# No plan creation â€¢ No plan switching â€¢ OEM-agnostic
 
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 Set-Location -Path (Split-Path -Parent $MyInvocation.MyCommand.Definition)
 
-#-----------------------------
-# CONFIGURATION
-#-----------------------------
+#----------------------------------
+# CONFIG
+#----------------------------------
 
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $lhmPath   = Join-Path $scriptDir 'LibreHardwareMonitorLib.dll'
@@ -24,38 +23,19 @@ if (-not (Test-Path $lhmPath)) {
     return
 }
 
-# Temperature stages (GPU °C)
 $Stages = [ordered]@{
-    Cool = @{
-        Min   = 0
-        Max   = 55
-        Epp   = 10
-        Label = "Cool"
-    }
-    Warm = @{
-        Min   = 56
-        Max   = 70
-        Epp   = 35
-        Label = "Warm"
-    }
-    Hot = @{
-        Min   = 71
-        Max   = 75
-        Epp   = 55
-        Label = "Hot"
-    }
+    Cool = @{ Min=0;  Max=55; Epp=10; Label="Cool" }
+    Warm = @{ Min=56; Max=70; Epp=35; Label="Warm" }
+    Hot  = @{ Min=71; Max=75; Epp=55; Label="Hot"  }
 }
 
-# CPU safety override thresholds
-$CpuWarnTemp  = 90
-$CpuMaxTemp   = 95
-
-# Polling interval (ms)
+$CpuWarnTemp    = 90
+$CpuMaxTemp     = 95
 $PollIntervalMs = 2000
 
-#-----------------------------
+#----------------------------------
 # POWER PLAN HELPERS
-#-----------------------------
+#----------------------------------
 
 $SubProcessorGuid   = '54533251-82be-4824-96c1-47b60b740d00'
 $PerfEnergyPrefGuid = '36687f9e-e3a5-4dbf-b1dc-15eb381c6863'
@@ -79,72 +59,21 @@ function Get-SchemeName {
     return $Guid
 }
 
-function Get-BalancedPlanGuid {
-    $list = powercfg /L 2>$null
-    foreach ($line in $list) {
-        if ($line -match 'Power Scheme GUID:\s+([0-9a-fA-F-]+)\s+\((.+?)\)') {
-            $g = $matches[1]
-            $n = $matches[2]
-            if ($n -match 'Balanced') {
-                return $g
-            }
-        }
-    }
-    return $null
-}
-
-function Ensure-ThermoPilotPlan {
-    $tpGuid = $null
-    $list   = powercfg /L 2>$null
-
-    foreach ($line in $list) {
-        if ($line -match 'Power Scheme GUID:\s+([0-9a-fA-F-]+)\s+\((.+?)\)') {
-            $g = $matches[1]
-            $n = $matches[2]
-            if ($n -match 'ThermoPilot Performance') {
-                $tpGuid = $g
-                break
-            }
-        }
-    }
-
-    if (-not $tpGuid) {
-        $balancedGuid = Get-BalancedPlanGuid
-        if (-not $balancedGuid) {
-            [System.Windows.Forms.MessageBox]::Show(
-                "Could not find a 'Balanced' power plan to base ThermoPilot on.",
-                "ThermoPilot",
-                [System.Windows.Forms.MessageBoxButtons]::OK,
-                [System.Windows.Forms.MessageBoxIcon]::Error
-            ) | Out-Null
-            return $null
-        }
-
-        $dup = powercfg -DUPLICATESCHEME $balancedGuid 2>$null
-        if ($dup -match 'Power Scheme GUID:\s+([0-9a-fA-F-]+)') {
-            $tpGuid = $matches[1]
-            powercfg -CHANGENAME $tpGuid "ThermoPilot Performance" "ThermoPilot Universal Performance Plan" | Out-Null
-        }
-    }
-
-    return $tpGuid
-}
-
-#-----------------------------
+#----------------------------------
 # LIBRE HARDWARE MONITOR
-#-----------------------------
+#----------------------------------
 
 [System.Reflection.Assembly]::LoadFile($lhmPath) | Out-Null
 
 $computer = New-Object LibreHardwareMonitor.Hardware.Computer
-$computer.IsCpuEnabled        = $true
-$computer.IsGpuEnabled        = $true
-$computer.IsMotherboardEnabled= $false
-$computer.IsMemoryEnabled     = $false
-$computer.IsControllerEnabled = $false
-$computer.IsNetworkEnabled    = $false
-$computer.IsBatteryEnabled    = $false
-$computer.IsPsuEnabled        = $false
+$computer.IsCpuEnabled         = $true
+$computer.IsGpuEnabled         = $true
+$computer.IsMotherboardEnabled = $false
+$computer.IsMemoryEnabled      = $false
+$computer.IsControllerEnabled  = $false
+$computer.IsNetworkEnabled     = $false
+$computer.IsBatteryEnabled     = $false
+$computer.IsPsuEnabled         = $false
 $computer.Open()
 
 function Find-CpuTempSensor {
@@ -191,22 +120,12 @@ if (-not $gpuSensor) {
     return
 }
 
-#-----------------------------
-# POWER PLAN SETUP
-#-----------------------------
-
-$tpGuid = Ensure-ThermoPilotPlan
-if (-not $tpGuid) {
-    $computer.Close()
-    return
-}
-
-#-----------------------------
+#----------------------------------
 # GUI
-#-----------------------------
+#----------------------------------
 
 $form = New-Object System.Windows.Forms.Form
-$form.Text = "ThermoPilot – Universal Edition"
+$form.Text = "ThermoPilot â€“ Universal Edition"
 $form.Size = New-Object System.Drawing.Size(500,500)
 $form.StartPosition = "CenterScreen"
 $form.FormBorderStyle = 'FixedDialog'
@@ -214,22 +133,16 @@ $form.MaximizeBox = $false
 $form.BackColor = [System.Drawing.Color]::FromArgb(245,245,245)
 $form.Font = New-Object System.Drawing.Font("Segoe UI", 10)
 
-# Header
 $header = New-Object System.Windows.Forms.Label
-$header.Text = "ThermoPilot – Universal"
+$header.Text = "ThermoPilot â€“ Universal"
 $header.Font = New-Object System.Drawing.Font("Segoe UI", 16, [System.Drawing.FontStyle]::Bold)
-
-# Center the header properly
 $headerWidth = 480
 $header.Location = New-Object System.Drawing.Point(
-    [math]::Floor(($form.ClientSize.Width - $headerWidth) / 2),
-    20
-)
+    [math]::Floor(($form.ClientSize.Width - $headerWidth) / 2), 20)
 $header.Size = New-Object System.Drawing.Size($headerWidth, 35)
 $header.TextAlign = "MiddleCenter"
 $form.Controls.Add($header)
 
-# Logo
 $logoPath = Join-Path $scriptDir "thermopilot_logo.png"
 if (Test-Path $logoPath) {
     $logo = New-Object System.Windows.Forms.PictureBox
@@ -244,59 +157,64 @@ if (Test-Path $logoPath) {
     $form.Controls.Add($logo)
 }
 
-# Panel
 $panel = New-Object System.Windows.Forms.Panel
 $panel.Location = New-Object System.Drawing.Point(20,210)
-$panel.Size = New-Object System.Drawing.Size(460,200)
+$panel.Size = New-Object System.Drawing.Size(460,240)
 $panel.BorderStyle = 'FixedSingle'
 $panel.BackColor = [System.Drawing.Color]::White
 $form.Controls.Add($panel)
 
-# GPU Temp
 $labelGpu = New-Object System.Windows.Forms.Label
 $labelGpu.Location = New-Object System.Drawing.Point(10,10)
 $labelGpu.Size = New-Object System.Drawing.Size(430,25)
-$labelGpu.Text = "GPU Temp: ? °C"
+$labelGpu.Text = "GPU Temp: ? Â°C"
 $panel.Controls.Add($labelGpu)
 
-# CPU Temp
 $labelCpu = New-Object System.Windows.Forms.Label
 $labelCpu.Location = New-Object System.Drawing.Point(10,40)
 $labelCpu.Size = New-Object System.Drawing.Size(430,25)
-$labelCpu.Text = "CPU Temp: ? °C"
+$labelCpu.Text = "CPU Temp: ? Â°C"
 $panel.Controls.Add($labelCpu)
 
-# Active Plan
 $labelPlan = New-Object System.Windows.Forms.Label
-$labelPlan.Location = New-Object System.Drawing.Point(10,75)
+$labelPlan.Location = New-Object System.Drawing.Point(10,70)
 $labelPlan.Size = New-Object System.Drawing.Size(430,25)
 $labelPlan.Text = "Active Plan: ?"
 $panel.Controls.Add($labelPlan)
 
-# Stage
 $labelStage = New-Object System.Windows.Forms.Label
-$labelStage.Location = New-Object System.Drawing.Point(10,110)
-$labelStage.Size = New-Object System.Drawing.Size(430,28)   # was 25
+$labelStage.Location = New-Object System.Drawing.Point(10,100)
+$labelStage.Size = New-Object System.Drawing.Size(430,25)
 $labelStage.Text = "Stage: ?"
 $panel.Controls.Add($labelStage)
 
-# EPP Writeback
 $labelEpp = New-Object System.Windows.Forms.Label
-$labelEpp.Location = New-Object System.Drawing.Point(10,145)
-$labelEpp.Size = New-Object System.Drawing.Size(430,28)   # was 25
+$labelEpp.Location = New-Object System.Drawing.Point(10,130)
+$labelEpp.Size = New-Object System.Drawing.Size(430,25)
 $labelEpp.Text = "Last EPP Write: ?"
 $panel.Controls.Add($labelEpp)
 
-# Footer
+$labelLock = New-Object System.Windows.Forms.Label
+$labelLock.Location = New-Object System.Drawing.Point(10,170)
+
+$labelLock.AutoSize = $false
+$labelLock.MaximumSize = New-Object System.Drawing.Size(430,0)
+$labelLock.Size = New-Object System.Drawing.Size(430,60)
+
+$labelLock.TextAlign = 'TopLeft'
+$labelLock.AutoEllipsis = $false
+
+$labelLock.Text = "OEM Lock: Not Detected"
+$panel.Controls.Add($labelLock)
+
 $footer = New-Object System.Windows.Forms.Label
-$footer.Text = "ThermoPilot v1.1 – Universal"
+$footer.Text = "ThermoPilot v1.0 â€“ Universal"
 $footer.Font = New-Object System.Drawing.Font("Segoe UI", 8)
 $footer.ForeColor = [System.Drawing.Color]::Gray
 $footer.Location = New-Object System.Drawing.Point(20,430)
 $footer.Size = New-Object System.Drawing.Size(300,20)
 $form.Controls.Add($footer)
 
-# Close button
 $buttonClose = New-Object System.Windows.Forms.Button
 $buttonClose.Location = New-Object System.Drawing.Point(360,425)
 $buttonClose.Size = New-Object System.Drawing.Size(100,30)
@@ -304,12 +222,13 @@ $buttonClose.Text = "Close"
 $buttonClose.Font = New-Object System.Drawing.Font("Segoe UI", 10)
 $form.Controls.Add($buttonClose)
 
-#-----------------------------
-# EPP WRITE-BACK
-#-----------------------------
+#----------------------------------
+# EPP WRITEBACK
+#----------------------------------
 
 $lastEppValue = $null
 $lastEppTime  = $null
+$wroteThisTick = $false
 
 function Set-PlanEpp {
     param([string]$PlanGuid, [int]$EppValue)
@@ -321,17 +240,17 @@ function Set-PlanEpp {
 
     $script:lastEppValue = $EppValue
     $script:lastEppTime  = (Get-Date).ToString("HH:mm:ss")
+    $script:wroteThisTick = $true
 }
 
-#-----------------------------
+#----------------------------------
 # MAIN LOGIC
-#-----------------------------
+#----------------------------------
 
 $currentStageName = $null
 
 function Get-StageForTemp {
     param([double]$Temp)
-
     foreach ($name in $Stages.Keys) {
         $stage = $Stages[$name]
         if ($Temp -ge $stage.Min -and $Temp -le $stage.Max) {
@@ -345,61 +264,59 @@ $timer = New-Object System.Windows.Forms.Timer
 $timer.Interval = $PollIntervalMs
 
 $timer.Add_Tick({
+    $script:wroteThisTick = $false
+    $cpuOverrideActive = $false
+    $stageName = $null
+
     try {
-        # Update sensors
         if ($cpuSensor) { $cpuSensor.Hardware.Update() }
         $gpuSensor.Hardware.Update()
 
-        # Read temps
         $gpuTemp = [math]::Round($gpuSensor.Value,1)
-        $labelGpu.Text = "GPU Temp: $gpuTemp °C"
+        $labelGpu.Text = "GPU Temp: $gpuTemp Â°C"
 
         if ($cpuSensor) {
             $cpuTemp = [math]::Round($cpuSensor.Value,1)
-            $labelCpu.Text = "CPU Temp: $cpuTemp °C"
+            $labelCpu.Text = "CPU Temp: $cpuTemp Â°C"
         } else {
             $cpuTemp = $null
             $labelCpu.Text = "CPU Temp: N/A"
         }
 
-        # Ensure ThermoPilot plan is active
         $activeGuid = Get-ActiveSchemeGuid
-        if ($activeGuid -ne $tpGuid) {
-            powercfg /SETACTIVE $tpGuid | Out-Null
-            $activeGuid = $tpGuid
-        }
-
         $labelPlan.Text = "Active Plan: $(Get-SchemeName $activeGuid)"
 
-        #-----------------------------
-        # CPU HARD OVERRIDE
-        #-----------------------------
         if ($cpuTemp -ne $null) {
             if ($cpuTemp -ge $CpuMaxTemp) {
-                Set-PlanEpp -PlanGuid $tpGuid -EppValue 90
+                Set-PlanEpp -PlanGuid $activeGuid -EppValue 90
                 $labelStage.Text = "Stage: CPU MAX (EPP 90)"
-                return
+                $cpuOverrideActive = $true
             }
             elseif ($cpuTemp -ge $CpuWarnTemp) {
-                Set-PlanEpp -PlanGuid $tpGuid -EppValue 60
+                Set-PlanEpp -PlanGuid $activeGuid -EppValue 60
                 $labelStage.Text = "Stage: CPU HOT (EPP 60)"
-                return
+                $cpuOverrideActive = $true
             }
         }
 
-        #-----------------------------
-        # GPU PRIMARY GOVERNOR
-        #-----------------------------
-        $stageName = Get-StageForTemp -Temp $gpuTemp
-        if ($stageName -and $stageName -ne $currentStageName) {
-            $stage = $Stages[$stageName]
-            Set-PlanEpp -PlanGuid $tpGuid -EppValue $stage.Epp
-            $labelStage.Text = "Stage: $($stage.Label) (EPP $($stage.Epp))"
-            $currentStageName = $stageName
+        if (-not $cpuOverrideActive) {
+            $stageName = Get-StageForTemp -Temp $gpuTemp
+            if ($stageName -and $stageName -ne $currentStageName) {
+                $stage = $Stages[$stageName]
+                Set-PlanEpp -PlanGuid $activeGuid -EppValue $stage.Epp
+                $labelStage.Text = "Stage: $($stage.Label) (EPP $($stage.Epp))"
+                $currentStageName = $stageName
+            }
         }
 
         if ($lastEppValue -ne $null) {
             $labelEpp.Text = "Last EPP Write: $lastEppValue at $lastEppTime"
+        }
+
+        if ($wroteThisTick -and -not $cpuOverrideActive -and $stageName -eq $currentStageName) {
+            $labelLock.Text = "OEM Lock: Detected (Acer EC override) â€“ Use ThermoPilot-Acer"
+        } else {
+            $labelLock.Text = "OEM Lock: Not Detected"
         }
     }
     catch {
