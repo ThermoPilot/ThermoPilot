@@ -12,6 +12,17 @@ ThermoPilot fills a gap that Windows and OEM tools never addressed:
 
 ---
 
+## Features
+- **Hybrid EPP Governor** — combines GPU temperature + workload bottleneck detection.
+- **CPU/GPU Utilization Awareness** — detects GPU‑bound, CPU‑bound, Mixed, and Idle states.
+- **SAFE MODE** — automatic fallback when telemetry is missing or invalid.
+- **OEM‑Agnostic** — works on any Windows laptop or desktop with LibreHardwareMonitor.
+- **No Power Plan Switching** — modifies only the active plan’s EPP index.
+- **Smooth Utilization Tracking** — exponential moving average prevents oscillation.
+- **GUI Included** — real‑time temperature, stage, EPP status, and SAFE MODE indicators.
+
+---
+
 # 🌟 Why ThermoPilot Exists
 
 Modern laptops and compact systems push hardware harder than ever:
