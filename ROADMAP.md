@@ -141,5 +141,19 @@ If you’re interested in contributing, collaborating, or exploring professional
 
 # 📅 Roadmap Status
 
-This roadmap will evolve as ThermoPilot grows.  
-Major updates will be reflected in the changelog and release notes.
+# ThermoPilot Universal — Roadmap
+
+## Completed
+- v1.0.2 — Bottleneck detection + runtime failsafes
+- v1.0.1 — GUI + stability improvements
+- v1.0.0 — Initial release
+
+## In Progress
+- GPU‑only fallback mode for OEM‑locked systems
+- Optional logging module (user‑toggle)
+- Improved GUI with utilization graphs
+
+## Planned
+- v1.1.0 — Auto‑update checker
+- v1.2.0 — Plugin system for advanced modules
+- v1.3.0 — Optional background‑service mode
