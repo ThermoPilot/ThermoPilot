@@ -44,20 +44,22 @@ Large or multi‑feature pull requests may be requested to split into smaller pa
 ### 4. Follow the Project’s Style
 Please keep your contributions consistent with:
 
-- existing code structure  
-- naming conventions  
-- documentation tone  
-- safety‑first design philosophy  
+# Contributing to ThermoPilot Universal
 
-### 5. Submit a Pull Request
-Include:
+## Code Style
+- PowerShell 5+ compatible  
+- No external dependencies except LibreHardwareMonitor  
+- Functions must be self‑contained and documented  
 
-- a clear description of the change  
-- why it’s needed  
-- any relevant screenshots or logs  
-- references to related issues  
+## Pull Requests
+- Describe the change  
+- Include testing notes  
+- Do not include private or OEM‑specific methods  
 
-Pull requests will be reviewed as time allows.
+## Issues
+Before opening an issue:
+- Confirm you are using the latest release  
+- Include hardware model and Windows version  
 
 ---
 
