@@ -1,4 +1,4 @@
-# ThermoPilot Universal Edition v1.0
+# ThermoPilot Universal Edition v1.0.3
 # Pure Universal EPP Governor for Windows
 # No plan creation • No plan switching • OEM-agnostic
 
@@ -23,6 +23,7 @@ if (-not (Test-Path $lhmPath)) {
     return
 }
 
+# GPU temp stages are still used as a secondary input
 $Stages = [ordered]@{
     Cool = @{ Min=0;  Max=55; Epp=10; Label="Cool" }
     Warm = @{ Min=56; Max=70; Epp=35; Label="Warm" }
@@ -32,6 +33,14 @@ $Stages = [ordered]@{
 $CpuWarnTemp    = 90
 $CpuMaxTemp     = 95
 $PollIntervalMs = 2000
+
+# Smoothing for utilization
+$SmoothingFactor   = 0.25
+$CPU_Util_Smoothed = 0
+$GPU_Util_Smoothed = 0
+
+# Default EPP for SAFE MODE / idle
+$DefaultEpp = 20
 
 #----------------------------------
 # POWER PLAN HELPERS
@@ -106,12 +115,53 @@ function Find-GpuTempSensor {
     return $null
 }
 
-$cpuSensor = Find-CpuTempSensor
-$gpuSensor = Find-GpuTempSensor
+function Find-CpuLoadSensor {
+    foreach ($hw in $computer.Hardware) {
+        if ($hw.HardwareType -eq 'Cpu') {
+            $hw.Update()
+            foreach ($s in $hw.Sensors) {
+                if ($s.SensorType -eq 'Load' -and $s.Name -eq 'CPU Total') {
+                    return $s
+                }
+            }
+        }
+    }
+    return $null
+}
+
+function Find-GpuLoadSensor {
+    foreach ($hw in $computer.Hardware) {
+        if ($hw.HardwareType -eq 'GpuAmd' -or $hw.HardwareType -eq 'GpuNvidia') {
+            $hw.Update()
+            foreach ($s in $hw.Sensors) {
+                if ($s.SensorType -eq 'Load' -and $s.Name -match 'GPU Core') {
+                    return $s
+                }
+            }
+        }
+    }
+    return $null
+}
+
+$cpuSensor     = Find-CpuTempSensor
+$gpuSensor     = Find-GpuTempSensor
+$cpuLoadSensor = Find-CpuLoadSensor
+$gpuLoadSensor = Find-GpuLoadSensor
 
 if (-not $gpuSensor) {
     [System.Windows.Forms.MessageBox]::Show(
         "No GPU temperature sensor found.",
+        "ThermoPilot",
+        [System.Windows.Forms.MessageBoxButtons]::OK,
+        [System.Windows.Forms.MessageBoxIcon]::Error
+    ) | Out-Null
+    $computer.Close()
+    return
+}
+
+if (-not $cpuLoadSensor -or -not $gpuLoadSensor) {
+    [System.Windows.Forms.MessageBox]::Show(
+        "Missing CPU or GPU utilization sensors.",
         "ThermoPilot",
         [System.Windows.Forms.MessageBoxButtons]::OK,
         [System.Windows.Forms.MessageBoxIcon]::Error
@@ -184,8 +234,8 @@ $panel.Controls.Add($labelPlan)
 
 $labelStage = New-Object System.Windows.Forms.Label
 $labelStage.AutoSize = $false
-$labelStage.Size = New-Object System.Drawing.Size(430, 25)   # full width, readable
-$labelStage.Location = New-Object System.Drawing.Point(10, 100)   # correct vertical order
+$labelStage.Size = New-Object System.Drawing.Size(430, 25)
+$labelStage.Location = New-Object System.Drawing.Point(10, 100)
 $labelStage.Font = New-Object System.Drawing.Font("Segoe UI", 10)
 $labelStage.TextAlign = "MiddleLeft"
 $labelStage.Text = "Stage: ?"
@@ -199,19 +249,16 @@ $panel.Controls.Add($labelEpp)
 
 $labelLock = New-Object System.Windows.Forms.Label
 $labelLock.Location = New-Object System.Drawing.Point(10,170)
-
 $labelLock.AutoSize = $false
 $labelLock.MaximumSize = New-Object System.Drawing.Size(430,0)
 $labelLock.Size = New-Object System.Drawing.Size(430,60)
-
 $labelLock.TextAlign = 'MiddleLeft'
 $labelLock.AutoEllipsis = $false
-
 $labelLock.Text = "EPP Status: Normal"
 $panel.Controls.Add($labelLock)
 
 $footer = New-Object System.Windows.Forms.Label
-$footer.Text = "ThermoPilot v1.0 – Universal"
+$footer.Text = "ThermoPilot v1.0.3 – Universal"
 $footer.Font = New-Object System.Drawing.Font("Segoe UI", 8)
 $footer.ForeColor = [System.Drawing.Color]::Gray
 $footer.Location = New-Object System.Drawing.Point(20,430)
@@ -229,8 +276,8 @@ $form.Controls.Add($buttonClose)
 # EPP WRITEBACK
 #----------------------------------
 
-$lastEppValue = $null
-$lastEppTime  = $null
+$lastEppValue  = $null
+$lastEppTime   = $null
 $wroteThisTick = $false
 
 function Set-PlanEpp {
@@ -241,88 +288,179 @@ function Set-PlanEpp {
 
     powercfg /SETACVALUEINDEX $PlanGuid $SubProcessorGuid $PerfEnergyPrefGuid $EppValue | Out-Null
 
-    $script:lastEppValue = $EppValue
-    $script:lastEppTime  = (Get-Date).ToString("HH:mm:ss")
+    $script:lastEppValue  = $EppValue
+    $script:lastEppTime   = (Get-Date).ToString("HH:mm:ss")
     $script:wroteThisTick = $true
 }
 
 #----------------------------------
-# MAIN LOGIC
+# BOTTLENECK + TELEMETRY HELPERS
 #----------------------------------
 
-$currentStageName = $null
+function Smooth {
+    param($Prev, $New)
+    return ($Prev * (1 - $SmoothingFactor)) + ($New * $SmoothingFactor)
+}
 
-function Get-StageForTemp {
-    param([double]$Temp)
-    foreach ($name in $Stages.Keys) {
-        $stage = $Stages[$name]
-        if ($Temp -ge $stage.Min -and $Temp -le $stage.Max) {
-            return $name
+function Get-LibreData {
+    try {
+        if ($cpuSensor)     { $cpuSensor.Hardware.Update() }
+        $gpuSensor.Hardware.Update()
+        $cpuLoadSensor.Hardware.Update()
+        $gpuLoadSensor.Hardware.Update()
+    }
+    catch {
+        return [PSCustomObject]@{
+            Valid    = $false
+            Reason   = "Hardware update failed"
+            CPU_Util = $null
+            GPU_Util = $null
+            GPU_Temp = $null
+            CPU_Temp = $null
         }
     }
-    return $null
+
+    $cpuTemp = $null
+    if ($cpuSensor) {
+        $cpuTemp = [math]::Round($cpuSensor.Value,1)
+    }
+
+    $gpuTemp = [math]::Round($gpuSensor.Value,1)
+    $cpuLoad = [math]::Round($cpuLoadSensor.Value,0)
+    $gpuLoad = [math]::Round($gpuLoadSensor.Value,0)
+
+    if ($gpuTemp -lt 0 -or $cpuLoad -lt 0 -or $gpuLoad -lt 0) {
+        return [PSCustomObject]@{
+            Valid    = $false
+            Reason   = "Invalid negative values"
+            CPU_Util = $cpuLoad
+            GPU_Util = $gpuLoad
+            GPU_Temp = $gpuTemp
+            CPU_Temp = $cpuTemp
+        }
+    }
+
+    return [PSCustomObject]@{
+        Valid    = $true
+        Reason   = "OK"
+        CPU_Util = $cpuLoad
+        GPU_Util = $gpuLoad
+        GPU_Temp = $gpuTemp
+        CPU_Temp = $cpuTemp
+    }
 }
+
+function Get-BottleneckState {
+    param($CPU, $GPU)
+
+    if ($GPU -ge 85 -and $CPU -le 70) { return "GPU_BOUND" }
+    if ($CPU -ge 85 -and $GPU -le 70) { return "CPU_BOUND" }
+    if ($CPU -ge 70 -and $GPU -ge 70) { return "MIXED" }
+    if ($CPU -lt 40 -and $GPU -lt 40) { return "IDLE" }
+
+    return "MIXED"
+}
+
+function Select-EPP {
+    param(
+        [string]$State,
+        [double]$GPUTemp,
+        [double]$CPUTemp
+    )
+
+    # CPU thermal overrides first
+    if ($CPUTemp -ne $null) {
+        if ($CPUTemp -ge $CpuMaxTemp) {
+            return 90
+        }
+        elseif ($CPUTemp -ge $CpuWarnTemp) {
+            return 60
+        }
+    }
+
+    switch ($State) {
+        "GPU_BOUND" {
+            if ($GPUTemp -ge 75) { return 55 }  # Hot
+            else                 { return 35 }  # Warm
+        }
+        "CPU_BOUND" {
+            return 10  # Cool
+        }
+        "MIXED" {
+            if ($GPUTemp -ge 80) { return 35 }  # Warm
+            else                 { return 10 }  # Cool
+        }
+        "IDLE" {
+            return $DefaultEpp
+        }
+    }
+}
+
+#----------------------------------
+# MAIN LOGIC (TIMER LOOP)
+#----------------------------------
 
 $timer = New-Object System.Windows.Forms.Timer
 $timer.Interval = $PollIntervalMs
 
 $timer.Add_Tick({
     $script:wroteThisTick = $false
-    $cpuOverrideActive = $false
-    $stageName = $null
 
     try {
-        if ($cpuSensor) { $cpuSensor.Hardware.Update() }
-        $gpuSensor.Hardware.Update()
+        $data = Get-LibreData
 
-        $gpuTemp = [math]::Round($gpuSensor.Value,1)
-        $labelGpu.Text = "GPU Temp: $gpuTemp °C"
+        if (-not $data.Valid) {
+            $labelStage.Text = "Stage: SAFE MODE – $($data.Reason)"
+            $labelLock.Text  = "EPP Status: SAFE MODE"
+            $labelLock.ForeColor = [System.Drawing.Color]::Red
 
-        if ($cpuSensor) {
-            $cpuTemp = [math]::Round($cpuSensor.Value,1)
-            $labelCpu.Text = "CPU Temp: $cpuTemp °C"
+            $activeGuid = Get-ActiveSchemeGuid
+            if ($activeGuid) {
+                Set-PlanEpp -PlanGuid $activeGuid -EppValue $DefaultEpp
+            }
+
+            if ($data.GPU_Temp -ne $null) {
+                $labelGpu.Text = "GPU Temp: $($data.GPU_Temp) °C"
+            }
+            if ($data.CPU_Temp -ne $null) {
+                $labelCpu.Text = "CPU Temp: $($data.CPU_Temp) °C"
+            }
+
+            return
+        }
+
+        # Update temps
+        $labelGpu.Text = "GPU Temp: $($data.GPU_Temp) °C"
+        if ($data.CPU_Temp -ne $null) {
+            $labelCpu.Text = "CPU Temp: $($data.CPU_Temp) °C"
         } else {
-            $cpuTemp = $null
             $labelCpu.Text = "CPU Temp: N/A"
         }
 
+        # Active plan
         $activeGuid = Get-ActiveSchemeGuid
         $labelPlan.Text = "Active Plan: $(Get-SchemeName $activeGuid)"
 
-        if ($cpuTemp -ne $null) {
-            if ($cpuTemp -ge $CpuMaxTemp) {
-                Set-PlanEpp -PlanGuid $activeGuid -EppValue 90
-                $labelStage.Text = "Stage: CPU MAX (EPP 90)"
-                $cpuOverrideActive = $true
-            }
-            elseif ($cpuTemp -ge $CpuWarnTemp) {
-                Set-PlanEpp -PlanGuid $activeGuid -EppValue 60
-                $labelStage.Text = "Stage: CPU HOT (EPP 60)"
-                $cpuOverrideActive = $true
-            }
+        # Smooth utilization
+        $CPU_Util_Smoothed = Smooth $CPU_Util_Smoothed $data.CPU_Util
+        $GPU_Util_Smoothed = Smooth $GPU_Util_Smoothed $data.GPU_Util
+
+        # Bottleneck + EPP
+        $state     = Get-BottleneckState -CPU $CPU_Util_Smoothed -GPU $GPU_Util_Smoothed
+        $targetEpp = Select-EPP -State $state -GPUTemp $data.GPU_Temp -CPUTemp $data.CPU_Temp
+
+        if ($activeGuid) {
+            Set-PlanEpp -PlanGuid $activeGuid -EppValue $targetEpp
         }
 
-        if (-not $cpuOverrideActive) {
-            $stageName = Get-StageForTemp -Temp $gpuTemp
-            if ($stageName -and $stageName -ne $currentStageName) {
-                $stage = $Stages[$stageName]
-                Set-PlanEpp -PlanGuid $activeGuid -EppValue $stage.Epp
-                $labelStage.Text = "Stage: $($stage.Label) (EPP $($stage.Epp))"
-                $currentStageName = $stageName
-            }
-        }
+        $labelStage.Text = "Stage: $state (EPP $targetEpp)"
 
         if ($lastEppValue -ne $null) {
             $labelEpp.Text = "Last EPP Write: $lastEppValue at $lastEppTime"
         }
 
-     if ($wroteThisTick -and -not $cpuOverrideActive -and $stageName -eq $currentStageName) {
-    $labelLock.Text = "EPP Status: System Overriding Value"
-    $labelLock.ForeColor = [System.Drawing.Color]::Red
-} else {
-    $labelLock.Text = "EPP Status: Normal"
-    $labelLock.ForeColor = [System.Drawing.Color]::Black
-}
+        $labelLock.Text = "EPP Status: Normal"
+        $labelLock.ForeColor = [System.Drawing.Color]::Black
     }
     catch {
         $labelStage.Text = "Stage: Error - $($_.Exception.Message)"
