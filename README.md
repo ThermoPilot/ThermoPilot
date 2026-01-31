@@ -267,6 +267,16 @@ ThermoPilot helps by:
 
 But desktops do **not** gain GPU performance.
 
+## Bottleneck Detection
+ThermoPilot Universal v1.0.2 introduces real‑time workload classification:
+
+- **GPU‑Bound** → GPU utilization high, CPU low  
+- **CPU‑Bound** → CPU utilization high, GPU low  
+- **Mixed** → both moderately high  
+- **Idle** → both low  
+
+This allows ThermoPilot to apply the correct EPP behavior for the workload instead of relying only on GPU temperature.
+
 ---
 
 # 🎮 Game Behavior — Who Sees Gains?
@@ -293,6 +303,19 @@ ThermoPilot improves:
 - Minecraft (Java)  
 
 CPU‑bound games rely heavily on CPU turbo behavior, so gains are minimal.
+
+### Acer Nitro / OEM‑Locked Systems
+Some Acer and ASUS laptops hide CPU telemetry at the firmware level.
+
+---
+
+ThermoPilot Universal handles this safely:
+- CPU Temp → N/A  
+- CPU Utilization → ignored  
+- GPU logic → fully functional  
+- SAFE MODE → does not trigger  
+
+The governor automatically falls back to GPU‑only mode.
 
 ---
 
