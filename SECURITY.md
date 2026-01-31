@@ -1,6 +1,25 @@
 # Security Policy
 
-ThermoPilot is designed with a safety‑first philosophy. It operates exclusively through standard Windows APIs and temperature telemetry. It does not modify firmware, voltages, or hardware‑level settings. Responsible reporting of issues is appreciated.
+## Data Handling
+ThermoPilot Universal:
+- Does **not** collect data  
+- Does **not** transmit data  
+- Does **not** upload telemetry  
+- Does **not** require network access  
+
+All processing occurs locally on the user’s machine.
+
+## Reporting Issues
+If you discover a security issue:
+1. Open a GitHub Issue  
+2. Describe the behavior  
+3. Include steps to reproduce  
+
+No logs or personal data are required.
+
+## Supported Versions
+- v1.0.2 (current)
+- v1.0.1 (limited support)
 
 ---
 
