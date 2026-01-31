@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.  
 This project follows [Semantic Versioning](https://semver.org/).
 
+# Changelog
+
+## v1.0.2 — Bottleneck Detection + Failsafes Upgrade
+**Release Date:** 2026‑01‑30
+
+### Added
+- CPU/GPU utilization‑based bottleneck detection using LibreHardwareMonitor.
+- SAFE MODE fallback for missing or invalid telemetry.
+- Runtime failsafes for null sensors, negative values, and hardware update failures.
+- Hybrid EPP logic combining GPU temperature + workload state.
+- Exponential moving average (EMA) smoothing for CPU/GPU utilization.
+- GUI indicators for SAFE MODE, bottleneck stage, and EPP status.
+
+### Improved
+- More stable EPP transitions with reduced oscillation.
+- Better compatibility with OEM‑locked systems (Acer Nitro, ASUS TUF).
+- Clearer separation between telemetry, logic, and GUI layers.
+- More accurate GPU‑bound detection for modern games.
+
+### Fixed
+- Occasional EPP override misreporting in the GUI.
+- Rare crash when LibreHardwareMonitor returned incomplete sensor sets.
+  
 ---
 
 ## [1.0.1] – 2026-01-30
